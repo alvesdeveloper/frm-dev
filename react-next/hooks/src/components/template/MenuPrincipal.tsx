@@ -6,6 +6,11 @@ import {
   IconLetterCase,
   IconRefreshAlert,
   IconSection,
+  IconAppWindow,
+  IconDimensions,
+  IconLock,
+  IconMenu,
+  IconX,
 } from "@tabler/icons";
 import { MenuItem } from "../../data/models/MenuItem";
 import { MenuSecao } from "../../data/models/MenuSecao";
@@ -14,11 +19,15 @@ import MenuPrincipalItem from "./MenuPrincipalItem";
 import MenuPrincipalSecao from "./MenuPrincipalSecao";
 import Flex from "./Flex";
 
+import useTamanhoJanela from "@/data/hooks/useTamanhoJanela";
+import { useEffect } from "react";
+import useBoolean from "@/data/hooks/useBoolean";
+
 export default function MenuPrincipal() {
   const secoes = [
     {
       titulo: "Essenciais",
-      aberta: true,
+      aberta: false,
       itens: [
         {
           titulo: "Contador",
@@ -70,8 +79,41 @@ export default function MenuPrincipal() {
         },
       ],
     },
+    {
+      titulo: "Personalizados",
+      aberta: true,
+      itens: [
+        {
+          titulo: "Modal",
+          url: "/personalizados/modal",
+          tag: "personalizados",
+          icone: <IconAppWindow />,
+        },
+        {
+          titulo: "Tamanho Janela",
+          url: "/personalizados/tamanhoJanela",
+          tag: "personalizados",
+          icone: <IconDimensions />,
+        },
+        {
+          titulo: "Validando Senha",
+          url: "/personalizados/senha",
+          tag: "personalizados",
+          icone: <IconLock />,
+        },
+      ],
+    },
   ];
-  const mini = false;
+  const [mini, toggleMini, miniTrue] = useBoolean(false);
+
+  let tamanho = useTamanhoJanela();
+
+  useEffect(() => {
+    if (tamanho === "md" || tamanho == "SM") {
+      miniTrue();
+    }
+  }, [tamanho]);
+
   function renderizarSecoes() {
     return secoes.map((secao: MenuSecao) => (
       <MenuPrincipalSecao
@@ -110,6 +152,9 @@ export default function MenuPrincipal() {
     >
       <Flex center className="m-7">
         {!mini && <Logo />}
+        <div className="cursor-pointer" onClick={toggleMini}>
+          {mini ? <IconMenu /> : <IconX />}
+        </div>
       </Flex>
       <nav className="flex flex-col gap-4 m-7">{renderizarSecoes()}</nav>
     </aside>
