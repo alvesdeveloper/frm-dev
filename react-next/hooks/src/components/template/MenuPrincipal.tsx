@@ -11,6 +11,7 @@ import {
   IconLock,
   IconMenu,
   IconX,
+  IconShoppingCart,
 } from "@tabler/icons";
 import { MenuItem } from "../../data/models/MenuItem";
 import { MenuSecao } from "../../data/models/MenuSecao";
@@ -100,6 +101,18 @@ export default function MenuPrincipal() {
           url: "/personalizados/senha",
           tag: "personalizados",
           icone: <IconLock />,
+        },
+      ],
+    },
+    {
+      titulo: "Contexto",
+      aberta: true,
+      itens: [
+        {
+          titulo: "Loja",
+          url: "/contexto/loja",
+          tag: "useContext",
+          icone: <IconShoppingCart />,
         },
       ],
     },
